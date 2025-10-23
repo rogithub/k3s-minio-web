@@ -1,0 +1,57 @@
+# .github/workflows/build-and-push.yml
+
+name: Build and Publish Minio-Web ARM64 Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Dockerfile'  # Usamos Dockerfile en lugar de Containerfile
+      - 'server.js'
+      - 'package.json'
+      - '.github/workflows/build-and-push.yml'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write   # Permite subir la imagen a ghcr.io
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set up QEMU for ARM emulation
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/arm64 # Configura la emulación para ARM64 (Raspberry Pi)
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          # Usamos tu secreto 'ROCK_TOKEN' como lo haces en el otro proyecto
+          password: ${{ secrets.ROCK_TOKEN }} 
+          
+      - name: Build and push the ARM64 container image
+        run: |
+          # 1. Define el nombre de la imagen con la etiqueta 'latest'
+          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/minio-web-pi-img:latest"
+
+          # 2. Construye y sube la imagen ARM64
+          # Nota: Usamos la opción --push para subir directamente a ghcr.io
+          docker buildx build \
+            --platform linux/arm64 \
+            --file Dockerfile \
+            -t $IMAGE_NAME \
+            --push .
