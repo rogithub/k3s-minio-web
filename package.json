@@ -1,0 +1,25 @@
+{
+  "name": "k3s-minio-web",
+  "version": "1.0.0",
+  "description": "sirve contenido en la web",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rogithub/k3s-minio-web.git"
+  },
+  "author": "romx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rogithub/k3s-minio-web/issues"
+  },
+  "homepage": "https://github.com/rogithub/k3s-minio-web#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "4.19.x",
+    "minio": "^8.0.6"
+  }
+}
