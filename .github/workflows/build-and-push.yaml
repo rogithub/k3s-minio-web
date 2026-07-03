@@ -1,8 +1,9 @@
 # .github/workflows/build-and-push.yml
 
-name: Build and Publish Minio-Web ARM64 Image
+name: Build and Publish Minio-Web Multi-Arch Image
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -10,7 +11,7 @@ on:
       - 'Dockerfile'  # Usamos Dockerfile en lugar de Containerfile
       - 'server.js'
       - 'package.json'
-      - '.github/workflows/build-and-push.yml'
+      - '.github/workflows/build-and-push.yaml'
   pull_request:
     branches:
       - main
