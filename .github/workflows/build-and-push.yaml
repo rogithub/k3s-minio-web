@@ -51,7 +51,7 @@ jobs:
           # 2. Construye y sube la imagen ARM64
           # Nota: Usamos la opción --push para subir directamente a ghcr.io
           docker buildx build \
-            --platform linux/arm64 \
+            --platform linux/amd64,linux/arm64 \
             --file Dockerfile \
             -t $IMAGE_NAME \
             --push .
